@@ -16,7 +16,7 @@ public class user_service {
     private user_repository userRepository;
 
     @Autowired
-    private user_validation userValidation ;
+    private user_validation userValidation;
 
     public ResponseEntity<response> register(User user){
 
