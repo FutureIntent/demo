@@ -22,6 +22,7 @@ public class user_service {
 
         response validation = userValidation.validate(user);
 
+        //validation
         try{
             if(!validation.getStatus()){
                 return new ResponseEntity<>(new response(false, validation.getMessage()), HttpStatus.EXPECTATION_FAILED);
@@ -30,6 +31,7 @@ public class user_service {
             return new ResponseEntity<>(new response(false, "Unable to register"), HttpStatus.BAD_REQUEST);
         }
 
+        //exists
         try{
             User exists = userRepository.findByEmail(user.getEmail());
             if(exists != null){
@@ -39,6 +41,10 @@ public class user_service {
             return new ResponseEntity<>(new response(false, "Unable to register"), HttpStatus.BAD_REQUEST);
         }
 
+        //hash password
+
+
+        //store user
         try{
             userRepository.save(user);
         }catch(Exception e){

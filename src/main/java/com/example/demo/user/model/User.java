@@ -1,9 +1,13 @@
 package com.example.demo.user.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 public class User {
@@ -24,6 +28,19 @@ public class User {
     @Column(nullable = false, length = 255, updatable = true)
     private String Password;
 
+    @CreationTimestamp
+    @Column(updatable = false)
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
+
+    private Boolean blackListed = false;
+
+    private Boolean verified = false;
+
+    private String role = "user";
+
     public User(String email, String password) {
         Email = email;
         Password = password;
@@ -34,6 +51,10 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -50,6 +71,46 @@ public class User {
 
     public void setPassword(String password) {
         Password = password;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Boolean getBlackListed() {
+        return blackListed;
+    }
+
+    public void setBlackListed(Boolean blackListed) {
+        this.blackListed = blackListed;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
