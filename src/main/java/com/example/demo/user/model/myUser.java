@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
-public class User {
+public class myUser {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -41,12 +41,12 @@ public class User {
 
     private String role = "user";
 
-    public User(String email, String password) {
+    public myUser(String email, String password) {
         Email = email;
         Password = password;
     }
 
-    public User() {
+    public myUser() {
     }
 
     public Long getId() {

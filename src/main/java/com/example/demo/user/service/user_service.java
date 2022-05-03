@@ -1,12 +1,14 @@
 package com.example.demo.user.service;
 
-import com.example.demo.user.model.User;
+import com.example.demo.user.model.myUser;
+import com.example.demo.user.passwordHashing.passwordHasher;
 import com.example.demo.user.repository.user_repository;
 import com.example.demo.user.response.response;
 import com.example.demo.user.validation.user_validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +20,13 @@ public class user_service {
     @Autowired
     private user_validation userValidation;
 
-    public ResponseEntity<response> register(User user){
+    @Autowired
+    private passwordHasher passwordhasher;
+
+    @Autowired
+    private AuthenticationManagerBuilder ManagerBuilder;
+
+    public ResponseEntity<response> register(myUser user){
 
         response validation = userValidation.validate(user);
 
@@ -33,7 +41,7 @@ public class user_service {
 
         //exists
         try{
-            User exists = userRepository.findByEmail(user.getEmail());
+            myUser exists = userRepository.findByEmail(user.getEmail());
             if(exists != null){
                 return new ResponseEntity<>(new response(false, "User already registered"), HttpStatus.IM_USED);
             }
@@ -41,16 +49,13 @@ public class user_service {
             return new ResponseEntity<>(new response(false, "Unable to register"), HttpStatus.BAD_REQUEST);
         }
 
-        //hash password
-
-
         //store user
         try{
+            user.setPassword(passwordhasher.hash(user.getPassword()));
             userRepository.save(user);
         }catch(Exception e){
             return new ResponseEntity<>(new response(false, "Unable to register"), HttpStatus.BAD_REQUEST);
         }
-
         return new ResponseEntity<>(new response(true, "Successful registration"), HttpStatus.CREATED);
     }
 }
