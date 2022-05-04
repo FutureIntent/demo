@@ -10,40 +10,42 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
+@Table(name="user")
 public class myUser {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(updatable = false, unique = true)
+    @Column(updatable = false, unique = true, name="id")
     private Long id;
 
-    @Column(nullable = false, length = 255, updatable = true, unique = true)
+    @Column(nullable = false, length = 255, updatable = true, unique = true, name="email")
     @NotBlank(message = "Please, provide an email")
     @Size(min=5,max=255, message = "Email size must be between 5 and 255 symbols")
     @Email(message = "Please, provide a valid email")
-    private String Email;
+    private String email;
 
     @NotBlank(message = "Please, provide a password")
     @Size(min=5, max=255, message = "Password size must be between 5 and 255 symbols")
-    @Column(nullable = false, length = 255, updatable = true)
-    private String Password;
+    @Column(nullable = false, length = 255, updatable = true, name="password")
+    private String password;
 
     @CreationTimestamp
-    @Column(updatable = false)
+    @Column(updatable = false, name="created_at")
     private Date createdAt;
 
     @UpdateTimestamp
+    @Column(name="updated_at")
     private Date updatedAt;
 
+    @Column(name="black_listed")
     private Boolean blackListed = false;
 
-    private Boolean verified = false;
-
+    @Column(name="role")
     private String role = "user";
 
     public myUser(String email, String password) {
-        Email = email;
-        Password = password;
+        this.email = email;
+        this.password = password;
     }
 
     public myUser() {
@@ -58,19 +60,19 @@ public class myUser {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public Date getCreatedAt() {
@@ -97,14 +99,6 @@ public class myUser {
         this.blackListed = blackListed;
     }
 
-    public Boolean getVerified() {
-        return verified;
-    }
-
-    public void setVerified(Boolean verified) {
-        this.verified = verified;
-    }
-
     public String getRole() {
         return role;
     }
@@ -117,8 +111,8 @@ public class myUser {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", Email='" + Email + '\'' +
-                ", Password='" + Password + '\'' +
+                ", Email='" + email + '\'' +
+                ", Password='" + password + '\'' +
                 '}';
     }
 }

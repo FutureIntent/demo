@@ -1,10 +1,10 @@
 package com.example.demo.user.response;
 
-public class response {
+public class register_response {
     private Boolean status;
     private String message;
 
-    public response(Boolean status, String message) {
+    public register_response(Boolean status, String message) {
         this.status = status;
         this.message = message;
     }
