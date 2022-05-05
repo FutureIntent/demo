@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/user")
@@ -24,8 +25,8 @@ public class user_controller {
     }
 
     @GetMapping("/test")
-    public ResponseEntity<register_response> test(){
-        return new ResponseEntity<>(new register_response(true,"test"), HttpStatus.ACCEPTED);
+    public ResponseEntity<register_response> test(Principal principal){
+        return new ResponseEntity<>(new register_response(true, principal.getName()), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/showUsers")
