@@ -24,9 +24,13 @@ public class user_controller {
         return response;
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<register_response> test(Principal principal){
-        return new ResponseEntity<>(new register_response(true, principal.getName()), HttpStatus.ACCEPTED);
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<register_response> deleteUser(Principal principal){
+
+        String email = principal.getName();
+        ResponseEntity<register_response> response = user_service.deleteUser(email);
+
+        return response;
     }
 
     @GetMapping("/showUsers")

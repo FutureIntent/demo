@@ -29,16 +29,22 @@ public class myUser {
     @Column(nullable = false, length = 255, updatable = true, name="password")
     private String password;
 
+    @Size(max=255, message="Status max size is 255 symbols")
+    @Column(nullable=true, length = 255, updatable = true, name = "status")
+    private String status;
+
+    @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     @Column(updatable = false, name="created_at")
-    private Date createdAt;
+    private Date created_at;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     @Column(name="updated_at")
-    private Date updatedAt;
+    private Date updated_at;
 
     @Column(name="black_listed")
-    private Boolean blackListed = false;
+    private Boolean black_listed = false;
 
     @Column(name="role")
     private String role = "user";
@@ -49,6 +55,14 @@ public class myUser {
     }
 
     public myUser() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getId() {
@@ -75,28 +89,29 @@ public class myUser {
         this.password = password;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Date getCreated_at()
+    {
+        return created_at;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public Date getUpdated_at() {
+        return updated_at;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdated_at(Date updated_at) {
+        this.updated_at = updated_at;
     }
 
-    public Boolean getBlackListed() {
-        return blackListed;
+    public Boolean getBlack_listed() {
+        return black_listed;
     }
 
-    public void setBlackListed(Boolean blackListed) {
-        this.blackListed = blackListed;
+    public void setBlack_listed(Boolean black_listed) {
+        this.black_listed = black_listed;
     }
 
     public String getRole() {

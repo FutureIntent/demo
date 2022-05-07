@@ -1,18 +1,18 @@
 package com.example.demo.user.response;
 
-import com.example.demo.user.model.myUser;
+import com.example.demo.user.repository.show_user;
 
 import java.util.List;
 
 public class showUsers_response {
 
     private Long totalItems;
-    private List<myUser> users;
+    private List<show_user> users;
     private Integer totalPages;
     private Integer currentPage;
     private String message;
 
-    public showUsers_response(Long totalItems, List<myUser> users, Integer totalPages, Integer currentPage, String message) {
+    public showUsers_response(Long totalItems, List<show_user> users, Integer totalPages, Integer currentPage, String message) {
         this.totalItems = totalItems;
         this.users = users;
         this.totalPages = totalPages;
@@ -28,11 +28,11 @@ public class showUsers_response {
         this.totalItems = totalItems;
     }
 
-    public List<myUser> getUsers() {
+    public List<show_user> getUsers() {
         return users;
     }
 
-    public void setUsers(List<myUser> users) {
+    public void setUsers(List<show_user> users) {
         this.users = users;
     }
 

@@ -2,6 +2,7 @@ package com.example.demo.user.service;
 
 import com.example.demo.user.model.myUser;
 import com.example.demo.user.passwordHashing.passwordHasher;
+import com.example.demo.user.repository.show_user;
 import com.example.demo.user.repository.user_repository;
 import com.example.demo.user.response.register_response;
 import com.example.demo.user.response.showUsers_response;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -68,13 +70,15 @@ public class user_service {
 try {
     Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
 
-    Page<myUser> pagedResult = userRepository.findAll(paging);
+    Page<show_user> pagedResult = userRepository.showUsers(paging);
 
     Long itemsCount = pagedResult.getTotalElements();
-    List<myUser> users = pagedResult.getContent();
+    List<show_user> users = pagedResult.getContent();
     Integer totalPages = pagedResult.getTotalPages();
     Integer currentPage = page + 1;
     String message;
+
+    System.out.println(users.get(0).getCreated_at());
 
     if (pagedResult.hasContent()) {
         message = "Success";
@@ -88,4 +92,15 @@ try {
         return new ResponseEntity<>(new showUsers_response(0L, new ArrayList<>(), 0, 0, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }
+
+   public ResponseEntity<register_response> deleteUser(String email){
+       try {
+           Integer deletedRecords = userRepository.deleteByEmail(email);
+       }catch(Exception e){
+           System.out.println(e.getMessage());
+           return new ResponseEntity<>(new register_response(false,"Unable to delete user"), HttpStatus.BAD_REQUEST);
+       }
+       SecurityContextHolder.clearContext();
+       return new ResponseEntity<>(new register_response(true, "Successful deletion of user"), HttpStatus.OK);
+   }
 }

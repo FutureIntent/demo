@@ -21,7 +21,7 @@ public class CustomUserDetailService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        UserDetails foundUser = User.withUsername(user.getEmail()).password(user.getPassword()).authorities(user.getRole()).accountLocked(user.getBlackListed()).build();
+        UserDetails foundUser = User.withUsername(user.getEmail()).password(user.getPassword()).authorities(user.getRole()).accountLocked(user.getBlack_listed()).build();
         return foundUser;
     }
 }
