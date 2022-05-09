@@ -1,10 +1,10 @@
 package com.example.demo.user.controller;
 
 import com.example.demo.user.model.myUser;
+import com.example.demo.user.request.user_patch;
 import com.example.demo.user.response.register_response;
 import com.example.demo.user.response.showUsers_response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +40,14 @@ public class user_controller {
                                                   ) throws Exception {
 
         ResponseEntity<showUsers_response> response = user_service.showUsers(page-1, size, sortBy);
+
+        return response;
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<register_response> updateUser(Principal principal, @Valid @RequestBody user_patch user){
+
+        ResponseEntity<register_response> response = user_service.user_update(principal, user);
 
         return response;
     }

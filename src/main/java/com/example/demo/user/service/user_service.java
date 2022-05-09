@@ -4,6 +4,7 @@ import com.example.demo.user.model.myUser;
 import com.example.demo.user.passwordHashing.passwordHasher;
 import com.example.demo.user.repository.show_user;
 import com.example.demo.user.repository.user_repository;
+import com.example.demo.user.request.user_patch;
 import com.example.demo.user.response.register_response;
 import com.example.demo.user.response.showUsers_response;
 import com.example.demo.user.validation.user_validation;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,8 +80,6 @@ try {
     Integer currentPage = page + 1;
     String message;
 
-    System.out.println(users.get(0).getCreated_at());
-
     if (pagedResult.hasContent()) {
         message = "Success";
         return new ResponseEntity<>(new showUsers_response(itemsCount, users, totalPages, currentPage, message), HttpStatus.OK);
@@ -102,5 +102,30 @@ try {
        }
        SecurityContextHolder.clearContext();
        return new ResponseEntity<>(new register_response(true, "Successful deletion of user"), HttpStatus.OK);
+   }
+
+   public ResponseEntity<register_response> user_update(Principal principal, user_patch user){
+
+        myUser existing_user;
+
+        //find user
+        try{
+            existing_user = userRepository.findByEmail(principal.getName());
+        }catch(Exception e){
+            return new ResponseEntity<>(new register_response(false, "Unable to update user"), HttpStatus.BAD_REQUEST);
+        }
+
+     //update status
+     if(user.getStatus() != null){
+         try{
+             existing_user.setStatus(user.getStatus());
+             userRepository.save(existing_user);
+         }catch(Exception e){
+             System.out.println(e.getMessage());
+             return new ResponseEntity<>(new register_response(false, "Unable to update status"), HttpStatus.BAD_REQUEST);
+         }
+     }
+
+        return new ResponseEntity<>(new register_response(true, "Profile has been updated"), HttpStatus.ACCEPTED);
    }
 }
