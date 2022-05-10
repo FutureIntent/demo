@@ -126,6 +126,18 @@ try {
          }
      }
 
+     if(user.getNew_password() != null){
+         if(user.getCurrent_password() == null) return new ResponseEntity<>(new register_response(false, "Please, provide an existing password"), HttpStatus.BAD_REQUEST);
+         String hashed_password = passwordhasher.hash(user.getNew_password());
+         if(!passwordhasher.compare(user.getCurrent_password(),existing_user.getPassword())) return new ResponseEntity<>(new register_response(false, "Invalid password"), HttpStatus.BAD_REQUEST);
+         existing_user.setPassword(hashed_password);
+         try{
+             userRepository.save(existing_user);
+         }catch(Exception e){
+             return new ResponseEntity<>(new register_response(false, "Unable to update user"), HttpStatus.BAD_REQUEST);
+         }
+     }
+
         return new ResponseEntity<>(new register_response(true, "Profile has been updated"), HttpStatus.ACCEPTED);
    }
 }
