@@ -15,8 +15,8 @@ public class myUser {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(updatable = false, unique = true, name="id")
-    private Long id;
+    @Column(updatable = false, unique = true, name="user_id")
+    private Long user_id;
 
     @Column(nullable = false, length = 255, updatable = true, unique = true, name="email")
     @NotBlank(message = "Please, provide an email")
@@ -65,12 +65,12 @@ public class myUser {
         this.status = status;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     public String getEmail() {
@@ -125,7 +125,7 @@ public class myUser {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + user_id +
                 ", Email='" + email + '\'' +
                 ", Password='" + password + '\'' +
                 '}';
