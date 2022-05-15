@@ -20,11 +20,11 @@ public class Post {
     private Long post_id;
 
     @NotBlank(message = "Please, provide a header")
-    @Size(min = 3, max = 100, message = "Header's size must be between 3 and 255 symbols")
+    @Size(min = 3, max = 255, message = "Header's size must be between 3 and 255 symbols")
     @Column(name="header")
     private String header;
 
-    @Max(value = 1000, message = "Maximum post's length is 1000 symbols")
+    @Size(max = 10000, message = "Maximum post's length is 10000 symbols")
     @Column(name = "content", columnDefinition="TEXT")
     private String content;
 
