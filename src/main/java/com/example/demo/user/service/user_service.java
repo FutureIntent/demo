@@ -68,7 +68,7 @@ public class user_service {
     }
 
     public ResponseEntity<showUsers_response> showUsers(Integer page, Integer size, String sortBy){
-
+        String message;
 try {
     Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
 
@@ -78,7 +78,6 @@ try {
     List<show_user> users = pagedResult.getContent();
     Integer totalPages = pagedResult.getTotalPages();
     Integer currentPage = page + 1;
-    String message;
 
     if (pagedResult.hasContent()) {
         message = "Success";
@@ -89,7 +88,8 @@ try {
     }
 }
     catch(Exception e){
-        return new ResponseEntity<>(new showUsers_response(0L, new ArrayList<>(), 0, 0, e.getMessage()), HttpStatus.BAD_REQUEST);
+        message = "Wrong query";
+        return new ResponseEntity<>(new showUsers_response(0L, new ArrayList<>(), 0, 0, message), HttpStatus.BAD_REQUEST);
     }
 }
 
