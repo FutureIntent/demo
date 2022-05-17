@@ -1,6 +1,7 @@
 package com.example.demo.post.controller;
 
 import com.example.demo.post.model.Post;
+import com.example.demo.post.request.showUser_request;
 import com.example.demo.post.response.creation_response;
 import com.example.demo.post.response.showPosts_response;
 import com.example.demo.post.service.post_service;
@@ -34,6 +35,26 @@ public class post_controller {
     ) throws Exception {
 
         ResponseEntity<showPosts_response> response = postService.showPosts(page-1, size, sortBy);
+
+        return response;
+    }
+
+    @GetMapping("/userPosts")
+    public ResponseEntity<showPosts_response> userPosts(
+            Principal principal,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "5") Integer size,
+            @RequestParam(defaultValue = "created_at") String sortBy,
+            @Valid @RequestBody(required = false) showUser_request email
+    ) throws Exception {
+
+        ResponseEntity<showPosts_response> response;
+
+        if(email == null){
+            response = postService.userPosts(page-1, size, sortBy, principal.getName());
+        }else{
+            response = postService.userPosts(page-1, size, sortBy, email.getEmail());
+        }
 
         return response;
     }
