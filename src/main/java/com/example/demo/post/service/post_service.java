@@ -5,7 +5,7 @@ import com.example.demo.post.repository.post_repository;
 import com.example.demo.post.repository.show_posts;
 import com.example.demo.post.response.creation_response;
 import com.example.demo.post.response.showPosts_response;
-import com.example.demo.user.model.myUser;
+import com.example.demo.user.model.User;
 import com.example.demo.user.repository.user_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,7 +31,7 @@ public class post_service {
 
     public ResponseEntity<creation_response> create_post(Post post, Principal principal){
         try{
-            myUser user = userRepository.findByEmail(principal.getName());
+            User user = userRepository.findByEmail(principal.getName());
             post.setUser(user);
             postRepository.save(post);
         }catch(Exception e){
@@ -87,6 +87,19 @@ public class post_service {
             message = "Wrong query";
             return new ResponseEntity<>(new showPosts_response(0L, new ArrayList<>(), 0, 0, message), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public ResponseEntity<creation_response> deletePosts (Principal principal, Long id){
+        Integer deletion = 0;
+    try{
+        User user = userRepository.findByEmail(principal.getName());
+        deletion = postRepository.deleteUserPost(id,user.getUser_id());
+    }catch(Exception e){
+        return new ResponseEntity<>(new creation_response(false, "Unable to delete post"), HttpStatus.BAD_REQUEST);
+    }
+       if(deletion < 1) return new ResponseEntity<>(new creation_response(true, "Nothing has been deleted"), HttpStatus.OK);
+
+        return new ResponseEntity<>(new creation_response(true, "Post " + id + " has been deleted"), HttpStatus.OK);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.demo.post.model;
 
-import com.example.demo.user.model.myUser;
+import com.example.demo.user.model.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -29,7 +29,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private myUser user;
+    private User user;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
@@ -44,7 +44,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(Long post_id, String header, String content, myUser user, Date created_at, Date updated_at) {
+    public Post(Long post_id, String header, String content, User user, Date created_at, Date updated_at) {
         this.post_id = post_id;
         this.header = header;
         this.content = content;
@@ -77,11 +77,11 @@ public class Post {
         this.content = content;
     }
 
-    public myUser getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(myUser user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

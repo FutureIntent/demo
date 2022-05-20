@@ -1,6 +1,7 @@
 package com.example.demo.user.service;
 
-import com.example.demo.user.model.myUser;
+import com.example.demo.post.repository.post_repository;
+import com.example.demo.user.model.User;
 import com.example.demo.user.passwordHashing.passwordHasher;
 import com.example.demo.user.repository.show_user;
 import com.example.demo.user.repository.user_repository;
@@ -34,7 +35,10 @@ public class user_service {
     @Autowired
     private passwordHasher passwordhasher;
 
-    public ResponseEntity<register_response> register(myUser user){
+    @Autowired
+    private post_repository postRepository;
+
+    public ResponseEntity<register_response> register(User user){
 
         register_response validation = userValidation.validate(user);
 
@@ -49,7 +53,7 @@ public class user_service {
 
         //exists
         try{
-            myUser exists = userRepository.findByEmail(user.getEmail());
+            User exists = userRepository.findByEmail(user.getEmail());
             if(exists != null){
                 return new ResponseEntity<>(new register_response(false, "User already registered"), HttpStatus.IM_USED);
             }
@@ -95,7 +99,10 @@ try {
 
    public ResponseEntity<register_response> deleteUser(String email){
        try {
-           Integer deletedRecords = userRepository.deleteByEmail(email);
+           User user = userRepository.findByEmail(email);
+           Long userId = user.getUser_id();
+           postRepository.deleteByUserId(userId);
+           userRepository.delete(user);
        }catch(Exception e){
            System.out.println(e.getMessage());
            return new ResponseEntity<>(new register_response(false,"Unable to delete user"), HttpStatus.BAD_REQUEST);
@@ -106,7 +113,7 @@ try {
 
    public ResponseEntity<register_response> user_update(Principal principal, user_patch user){
 
-        myUser existing_user;
+        User existing_user;
 
         //find user
         try{

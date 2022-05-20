@@ -1,12 +1,12 @@
 package com.example.demo.user.validation;
 
-import com.example.demo.user.model.myUser;
+import com.example.demo.user.model.User;
 import com.example.demo.user.response.register_response;
 import org.springframework.stereotype.Component;
 
 @Component
 public class user_validation {
-    public register_response validate(myUser user){
+    public register_response validate(User user){
     String password = user.getPassword();
 
     for(int i=0; i < password.length(); i++){

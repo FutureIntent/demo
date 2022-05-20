@@ -6,15 +6,19 @@ import com.example.demo.post.response.creation_response;
 import com.example.demo.post.response.showPosts_response;
 import com.example.demo.post.service.post_service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.security.Principal;
 
 @Controller
 @RequestMapping("/post")
+@Validated // class level
 public class post_controller {
 
     @Autowired
@@ -55,6 +59,14 @@ public class post_controller {
         }else{
             response = postService.userPosts(page-1, size, sortBy, email.getEmail());
         }
+
+        return response;
+    }
+
+    @DeleteMapping("/deletePost/{id}")
+    public ResponseEntity<creation_response> deleteUser(Principal principal, @PathVariable @Min(0) Long id) {
+
+        ResponseEntity<creation_response> response = postService.deletePosts(principal, id);
 
         return response;
     }

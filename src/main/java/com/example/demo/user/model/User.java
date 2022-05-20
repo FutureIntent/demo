@@ -1,5 +1,6 @@
 package com.example.demo.user.model;
 
+import com.example.demo.post.model.Post;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,10 +9,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="user")
-public class myUser {
+public class User {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -49,12 +51,12 @@ public class myUser {
     @Column(name="role")
     private String role = "user";
 
-    public myUser(String email, String password) {
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public myUser() {
+    public User() {
     }
 
     public String getStatus() {

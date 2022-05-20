@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers( "/user/deleteUser", "/user/update", "/post/create", "/post/userPosts")
+                .antMatchers( "/user/deleteUser", "/user/update", "/post/create", "/post/userPosts", "/post/deletePost/*")
                 .hasAuthority("user")
                 .anyRequest()
                 .permitAll()
