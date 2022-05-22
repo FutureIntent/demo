@@ -1,12 +1,12 @@
 package com.example.demo.post.controller;
 
 import com.example.demo.post.model.Post;
-import com.example.demo.post.request.showUser_request;
+import com.example.demo.post.request.patchPost_request;
+import com.example.demo.post.request.showPost_request;
 import com.example.demo.post.response.creation_response;
 import com.example.demo.post.response.showPosts_response;
 import com.example.demo.post.service.post_service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -49,7 +49,7 @@ public class post_controller {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "5") Integer size,
             @RequestParam(defaultValue = "created_at") String sortBy,
-            @Valid @RequestBody(required = false) showUser_request email
+            @Valid @RequestBody(required = false) showPost_request email
     ) throws Exception {
 
         ResponseEntity<showPosts_response> response;
@@ -67,6 +67,14 @@ public class post_controller {
     public ResponseEntity<creation_response> deleteUser(Principal principal, @PathVariable @Min(0) Long id) {
 
         ResponseEntity<creation_response> response = postService.deletePosts(principal, id);
+
+        return response;
+    }
+
+    @PatchMapping("/updatePost")
+    public ResponseEntity<creation_response> patchPost(@Valid @RequestBody patchPost_request new_post, Principal principal){
+
+        ResponseEntity<creation_response> response = postService.patchPost(principal, new_post);
 
         return response;
     }

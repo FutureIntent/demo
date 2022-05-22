@@ -4,16 +4,16 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class showUser_request {
+public class showPost_request {
     @NotBlank(message = "Please, provide an email")
     @Size(min=5, max=255, message = "Email size must be between 5 and 255 symbols")
     @Email(message = "Please, provide a valid email")
     private String email;
 
-    public showUser_request() {
+    public showPost_request() {
     }
 
-    public showUser_request(String email) {
+    public showPost_request(String email) {
         this.email = email;
     }
 

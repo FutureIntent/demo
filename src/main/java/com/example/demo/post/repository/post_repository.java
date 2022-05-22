@@ -29,8 +29,11 @@ Page<show_posts> showUserPosts(@Param("email") String email, Pageable paging);
 @Query(value = "DELETE from post WHERE post.post_id = :id AND post.user_id = :user_id", nativeQuery = true)
 Integer deleteUserPost(@Param("id") Long id, @Param("user_id") Long user_id);
 
-    @Transactional
-    @Modifying
-    @Query(value = "DELETE from post WHERE post.user_id = :user_id", nativeQuery = true)
-    Integer deleteByUserId(@Param("user_id") Long user_id);
+@Transactional
+@Modifying
+@Query(value = "DELETE from post WHERE post.user_id = :user_id", nativeQuery = true)
+Integer deleteByUserId(@Param("user_id") Long user_id);
+
+@Query(value = "SELECT * from post WHERE post.post_id = :post_id AND post.user_id = :user_id", nativeQuery = true)
+Post findByPostIdAndUserId(@Param("post_id") Long post_id, @Param("user_id") Long user_id);
 }
