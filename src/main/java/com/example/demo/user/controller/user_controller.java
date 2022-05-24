@@ -1,13 +1,16 @@
 package com.example.demo.user.controller;
 
+import com.example.demo.mail.EmailServiceImpl;
 import com.example.demo.post.model.Post;
 import com.example.demo.post.repository.post_repository;
 import com.example.demo.user.model.User;
 import com.example.demo.user.repository.user_repository;
+import com.example.demo.user.request.message;
 import com.example.demo.user.request.user_patch;
 import com.example.demo.user.response.register_response;
 import com.example.demo.user.response.showUsers_response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +30,9 @@ public class user_controller {
 
     @Autowired
     post_repository postRepository;
+
+    @Autowired
+    EmailServiceImpl emailServiceImpl;
 
     @PostMapping("/register")
     public ResponseEntity<register_response> registration(@Valid @RequestBody User user){
@@ -60,6 +66,21 @@ public class user_controller {
         ResponseEntity<register_response> response = user_service.user_update(principal, user);
 
         return response;
+    }
+
+    @PostMapping("/message")
+    public ResponseEntity<register_response> sendMessage(@RequestBody message message){
+
+        String to = message.getTo();
+        String subject = message.getSubject();
+        String text = message.getText();
+
+       try{
+           emailServiceImpl.sendSimpleMessage(to,subject,text);
+       }catch(Exception e){
+           return new ResponseEntity<>(new register_response(false, e.getMessage()), HttpStatus.BAD_GATEWAY);
+       }
+      return new ResponseEntity<>(new register_response(true, "Mail has been sent"), HttpStatus.OK);
     }
 
     @GetMapping("/test")
