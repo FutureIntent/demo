@@ -1,6 +1,15 @@
 ## ABOUT
 
+This project has no UI!!!
+This project is a blog prototype. User has ability to register and authenticate/authorise by providing existing credentials. Authorised user has access to secured routes, which give user CRUD functionality such as: show different users, update current user's data, delete current user, register new user. Users can create their own posts by providing `title` and `content` on a special route. Authenticated users can view users posts, update own posts and delete them. All `GET` routes use pagination, provide URL queries or default properties will be set.
+
 This project is a Spring Boot knowledge showcase. It includes various basic back-end aspects such as: Restful API, controllers, services, models, repositories, ORM Hibernate, Maven, authentication and authorisation processes by storing user's Sessions in database via Spring Security, email sending by JavaMail library, SQL queries, associated tables, Hibernate inheritance, validation via JPA Validator, CRUD functionality and pagination.
+
+
+### DEMONSTRATIONAL PURPOSE
+
+Project has an opportunity to add products by using Hibernate inheritance. Only user with role `admin` can create products.
+Also, there is a controller to send email messages. Email properties can be adjusted in `application.properties` and `mail` -> `EmailServiceImpl.java`.
 
 ## TIPS
 
