@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -24,13 +26,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic();
+        http.httpBasic();  //for testing and postman
+        //http.formLogin();    //for front end
+        http.cors();
         http
 
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers( "/user/deleteUser", "/user/update", "/post/create", "/post/userPosts", "/post/deletePost/*", "/post/updatePost")
+                .antMatchers( "/user/deleteUser", "/user/update", "/post/create", "/post/userPosts", "/post/deletePost/*", "/post/updatePost", "/user/cors")
                 .hasAnyAuthority("user", "admin")
                 .antMatchers("/product/createFoodProduct")
                 .hasAuthority("admin")
@@ -38,12 +42,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/login")
+                .defaultSuccessUrl("http://localhost:3000/", true)
                 .failureUrl("/login?")
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .deleteCookies("JSESSIONID");
+                .invalidateHttpSession(true)
+                .deleteCookies("SESSION");
+    }
+
+    @Bean
+    public CookieSerializer cookieSerializer() {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+        serializer.setCookieName("SESSION");
+        serializer.setCookiePath("/");
+        serializer.setDomainName("localhost");
+        return serializer;
     }
 
     @Override

@@ -82,7 +82,7 @@ public class post_service {
                 return new ResponseEntity<>(new showPosts_response(totalItems, posts, totalPages, currentPage, message), HttpStatus.OK);
             } else {
                 message = "No content";
-                return new ResponseEntity<>(new showPosts_response(totalItems, posts, totalPages, currentPage, message), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new showPosts_response(totalItems, posts, totalPages, currentPage, message), HttpStatus.OK);
             }
         }catch(Exception e){
             message = "Wrong query";

@@ -83,6 +83,12 @@ public class user_controller {
       return new ResponseEntity<>(new register_response(true, "Mail has been sent"), HttpStatus.OK);
     }
 
+    @PostMapping("/cors")
+    public ResponseEntity<String> cors(@RequestBody String word){
+
+        return new ResponseEntity<>(word, HttpStatus.OK);
+    }
+
     @GetMapping("/test")
     public ResponseEntity<List<Post>> test(){
 
